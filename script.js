@@ -6,8 +6,7 @@ const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
-Anunciado:" A inteligência artificial é uma ferramenta poderosa que transforma dados em soluções inteligentes, ajudando a tornar o mundo mais eficiente e conectado".
-
+        enunciado:" A inteligência artificial é uma ferramenta poderosa que transforma dados em soluções inteligentes, ajudando a tornar o mundo mais eficiente e conectado",
         alternativas: [
             {
                 texto: "Isso é muito dahora!",
@@ -15,7 +14,7 @@ Anunciado:" A inteligência artificial é uma ferramenta poderosa que transforma
             },
             {
                 texto: "Isso é maravilhoso Rafaela!",
-                afirmacao: "Quis saber como usar IA no seu dia a dia."
+                afirmacao: "Quero saber como usar IA no seu dia a dia."
             }
         ]
     },
