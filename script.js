@@ -1,9 +1,13 @@
-const caixaPrincipal = document.querySelector(".caixa-principal");
+// =========================
+// Elementos do DOM
+// =========================
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
 
+// =========================
+// Perguntas do quiz
+// =========================
 const perguntas = [
     {
         enunciado: "O filme 'Até o Último Homem' conta a história de Desmond Doss. Qual era sua principal crença?",
@@ -42,72 +46,85 @@ const perguntas = [
     },
 ];
 
+// =========================
+// Variáveis de controle
+// =========================
 let atual = 0;
-let perguntaAtual;
-let historiaFinal = "";
+let historiaFinal = [];
+
+// =========================
+// Funções do Quiz
+// =========================
+function iniciaQuiz() {
+    atual = 0;
+    historiaFinal = [];
+    mostraPergunta();
+}
 
 function mostraPergunta() {
     if (atual >= perguntas.length) {
         mostraResultado();
         return;
     }
-    perguntaAtual = perguntas[atual];
+
+    const perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = "";
-    mostraAlternativas();
+    caixaAlternativas.innerHTML = "";
+
+    perguntaAtual.alternativas.forEach(alternativa => {
+        const botao = document.createElement("button");
+        botao.textContent = alternativa.texto;
+        botao.classList.add("botao-alternativa");
+
+        botao.addEventListener("click", () => {
+            botao.disabled = true; // desativa botão após clicar
+            respostaSelecionada(alternativa.afirmacao);
+        });
+
+        caixaAlternativas.appendChild(botao);
+    });
 }
 
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.classList.add("botao-alternativa"); // classe para estilizar
-        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
-        caixaAlternativas.appendChild(botaoAlternativas);
-    }
-}
-
-function respostaSelecionada(opcaoSelecionada) {
-    const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes + "\n";
+function respostaSelecionada(afirmacao) {
+    historiaFinal.push(afirmacao);
     atual++;
     mostraPergunta();
 }
 
 function mostraResultado() {
     caixaPerguntas.textContent = "Sua Jornada no Filme 'Até o Último Homem'";
-    textoResultado.textContent = historiaFinal;
-    caixaAlternativas.textContent = "";
+    textoResultado.textContent = historiaFinal.join("\n");
+    caixaAlternativas.innerHTML = "";
 
-    // Botão para reiniciar
     const botaoReiniciar = document.createElement("button");
     botaoReiniciar.textContent = "Reiniciar Quiz";
-    botaoReiniciar.addEventListener("click", () => {
-        atual = 0;
-        historiaFinal = "";
-        mostraPergunta();
-    });
+    botaoReiniciar.classList.add("botao-reiniciar");
+    botaoReiniciar.addEventListener("click", iniciaQuiz);
+
     caixaAlternativas.appendChild(botaoReiniciar);
 }
 
-mostraPergunta();
+// =========================
+// Relógio digital
+// =========================
+function atualizaRelogio() {
+    const horasElem = document.getElementById('horas');
+    const minutosElem = document.getElementById('minutos');
+    const segundosElem = document.getElementById('segundos');
 
-// RELÓGIO
-const horas = document.getElementById('horas');
-const minutos = document.getElementById('minutos');
-const segundos = document.getElementById('segundos');
+    const agora = new Date();
+    const hr = String(agora.getHours()).padStart(2, '0');
+    const min = String(agora.getMinutes()).padStart(2, '0');
+    const s = String(agora.getSeconds()).padStart(2, '0');
 
-setInterval(function time() {
-    let dateToday = new Date();
-    let hr = dateToday.getHours();
-    let min = dateToday.getMinutes();
-    let s = dateToday.getSeconds();
+    horasElem.textContent = hr;
+    minutosElem.textContent = min;
+    segundosElem.textContent = s;
+}
 
-    if (hr < 10) hr = '0' + hr;
-    if (min < 10) min = '0' + min;
-    if (s < 10) s = '0' + s;
+setInterval(atualizaRelogio, 1000);
 
-    horas.textContent = hr;
-    minutos.textContent = min;
-    segundos.textContent = s;
-}, 1000);
+// =========================
+// Inicialização
+// =========================
+iniciaQuiz();
