@@ -6,68 +6,38 @@ const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
-        enunciado:"Já parou pra pensar como a inteligência artificial tá mudando tudo? Ela pega um monte de informação e transforma em coisas úteis, deixando o mundo mais prático e conectado.",
+        enunciado: "O filme 'Até o Último Homem' conta a história de Desmond Doss. Qual era sua principal crença?",
         alternativas: [
-            {
-                texto: "Isso é muito dahora!",
-                afirmacao: "Da medo do que essa tecnologia pode fazer. "
-            },
-            {
-                texto: "Isso é maravilhoso Rafaela!",
-                afirmacao: "Quero saber como usar IA no seu dia a dia."
-            }
+            { texto: "Ele acreditava em nunca matar e salvar vidas.", afirmacao: "Você valoriza a coragem e a moral acima de tudo." },
+            { texto: "Ele queria se tornar herói a qualquer custo.", afirmacao: "Você percebe que a glória não é o mais importante." }
         ]
     },
     {
-        enunciado: "Na escola, a professora começou a falar sobre IA e pediu um trabalho sobre como ela pode ser usada na sala de aula. E aí, o que você faz?",
+        enunciado: "Desmond Doss serviu como médico no exército durante a Segunda Guerra Mundial. Como ele se destacou?",
         alternativas: [
-            {
-                texto: "Utiliza uma ferramenta de busca na internet com IA pra encontrar informações e entender melhor o tema.",
-                afirmacao: "Conseguiu utilizar a IA para buscar informações úteis."
-            },
-            {
-                texto: "Faz o trabalho com ajuda de colegas, pesquisas e o que você já sabe.",
-                afirmacao: "Sentiu mais facilidade em utilizar seus próprios recursos para escrever seu trabalho."
-            }
+            { texto: "Salvando dezenas de soldados sem usar armas.", afirmacao: "Você reconhece que heroísmo pode vir de compaixão." },
+            { texto: "Liderando ataques e estratégias de combate.", afirmacao: "Você entende que liderança não é só força física." }
         ]
     },
     {
-        enunciado: "Depois do trabalho, rolou um debate na sala sobre como a IA pode impactar o futuro dos empregos. Qual é a sua opinião?",
+        enunciado: "Durante o treinamento militar, muitos zombaram de Desmond. Como ele reagiu?",
         alternativas: [
-            {
-                texto: "A IA pode criar novas oportunidades e ajudar as pessoas a evoluírem.",
-                afirmacao: "Vem impulsionando a inovação na área de IA e luta para abrir novos caminhos profissionais com IA."
-            },
-            {
-                texto: "Fico preocupado com quem pode perder o emprego por causa das máquinas.",
-                afirmacao: "Sua preocupação com as pessoas motivou a criar um grupo de estudos para discutir o uso ético da IA."
-            }
+            { texto: "Manteve sua fé e princípios, sem ceder à violência.", afirmacao: "Você valoriza a perseverança diante da pressão." },
+            { texto: "Acabou participando de brigas para se encaixar.", afirmacao: "Você aprendeu que ceder aos outros pode ter consequências." }
         ]
     },
     {
-        enunciado: "No final, a professora pediu pra você criar uma imagem no computador mostrando o que pensa sobre IA. Como você faz isso?",
+        enunciado: "No campo de batalha, Desmond enfrentou situações extremas. Qual era sua prioridade?",
         alternativas: [
-            {
-                texto: "Uso um programa tipo Paint e faço tudo manualmente.",
-                afirmacao: "Decidiu ajudar outras pessoas a aprenderem ferramentas de desenho digital."
-            },
-            {
-                texto: "Uso um gerador de imagens com IA pra facilitar.",
-                afirmacao: "Agora consegue criar imagens mais rápido e até ensinar outras pessoas a usar IA."
-            }
+            { texto: "Salvar vidas, mesmo arriscando a própria.", afirmacao: "Você admira a coragem altruísta de salvar os outros." },
+            { texto: "Seguir ordens rapidamente sem questionar.", afirmacao: "Você entende a importância de disciplina militar." }
         ]
     },
     {
-        enunciado: "Você tem um trabalho em grupo atrasado e alguém usou IA pra fazer tudo pronto. O que você faz?",
+        enunciado: "Ao final do filme, Desmond recebeu a Medalha de Honra. O que isso representa?",
         alternativas: [
-            {
-                texto: "Tá valendo, usar IA já é parte do trabalho mesmo.",
-                afirmacao: "Acabou ficando dependente da IA para fazer todas as tarefas."
-            },
-            {
-                texto: "Melhor revisar, ajustar e colocar nossas próprias ideias também.",
-                afirmacao: "Aprendeu que a IA deve ajudar, mas não substituir totalmente o pensamento próprio."
-            }
+            { texto: "Reconhecimento pelo heroísmo sem violência.", afirmacao: "Você percebe que princípios podem superar a guerra." },
+            { texto: "Um exemplo de disciplina e obediência militar.", afirmacao: "Você entende que disciplina também é valiosa, mas não é tudo." }
         ]
     },
 ];
@@ -87,10 +57,11 @@ function mostraPergunta() {
     mostraAlternativas();
 }
 
-function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas) {
+function mostraAlternativas() {
+    for (const alternativa of perguntaAtual.alternativas) {
         const botaoAlternativas = document.createElement("button");
         botaoAlternativas.textContent = alternativa.texto;
+        botaoAlternativas.classList.add("botao-alternativa"); // classe para estilizar
         botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
         caixaAlternativas.appendChild(botaoAlternativas);
     }
@@ -98,15 +69,25 @@ function mostraAlternativas(){
 
 function respostaSelecionada(opcaoSelecionada) {
     const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes + " ";
+    historiaFinal += afirmacoes + "\n";
     atual++;
     mostraPergunta();
 }
 
 function mostraResultado() {
-    caixaPerguntas.textContent = "Em 2049...";
+    caixaPerguntas.textContent = "Sua Jornada no Filme 'Até o Último Homem'";
     textoResultado.textContent = historiaFinal;
     caixaAlternativas.textContent = "";
+
+    // Botão para reiniciar
+    const botaoReiniciar = document.createElement("button");
+    botaoReiniciar.textContent = "Reiniciar Quiz";
+    botaoReiniciar.addEventListener("click", () => {
+        atual = 0;
+        historiaFinal = "";
+        mostraPergunta();
+    });
+    caixaAlternativas.appendChild(botaoReiniciar);
 }
 
 mostraPergunta();
@@ -129,4 +110,4 @@ setInterval(function time() {
     horas.textContent = hr;
     minutos.textContent = min;
     segundos.textContent = s;
-});
+}, 1000);
