@@ -76,25 +76,35 @@ function mostraPergunta() {
         botao.textContent = alternativa.texto;
         botao.classList.add("botao-alternativa");
 
+        // Adiciona o evento de clique
         botao.addEventListener("click", () => {
-            botao.disabled = true; // Desativa o botão após clicar
-            respostaSelecionada(alternativa.afirmacao);
-            botao.classList.add("clicado"); // Adiciona a animação de clique
+            // Chama a função para lidar com a resposta
+            respostaSelecionada(botao, alternativa);
         });
 
         caixaAlternativas.appendChild(botao);
     });
 }
 
-function respostaSelecionada(afirmacao) {
-    historiaFinal.push(afirmacao);
-    atual++;
-    mostraPergunta();
+// Função para lidar com a resposta selecionada
+function respostaSelecionada(botao, alternativa) {
+    botao.disabled = true; // Desativa o botão após clicar
+    botao.classList.add("clicado"); // Anima o botão clicado
+    historiaFinal.push(alternativa.afirmacao);
+
+    // Dê um tempo para o usuário ver a resposta antes de avançar
+    setTimeout(() => {
+        atual++;
+        mostraPergunta();
+    }, 1000); // Aguardar 1 segundo antes de mostrar a próxima pergunta
 }
 
 function mostraResultado() {
     caixaPerguntas.textContent = "Sua Jornada no Filme 'Até o Último Homem'";
+
+    // Exibe uma mensagem de resultado com base nas afirmações coletadas
     textoResultado.textContent = historiaFinal.join("\n");
+
     caixaAlternativas.innerHTML = "";
 
     const botaoReiniciar = document.createElement("button");
