@@ -5,85 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="icon.png">
-    <title>Até o último homem</title>
+    <title>Até o Último Homem</title>
 </head>
-<style>
-    body{
-    min-height:150vh;
-    }
-
-    ::-webkit-scrollbar 
-    {
-        width: 12px;
-    }
-
-    ::-webkit-scrollbar-track 
-    {
-        background: green;
-    }
-
-    ::-webkit-scrollbar-thumb 
-    {
-        background: #323683;
-        border-radius: 14px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover 
-    {
-        opacity: .95;
-    }
-  </style>
 <body>
-    <div class="caixa-principal">
-        <br>
-        <h1>Rafa</h1>
-        <br>
-        <h2 > Filme Até o último homem</h2></h2>
-        <div class="caixa-perguntas"></div>
-        <div class="caixa-alternativas"></div>
-        <div class="caixa-resultado">
-            <p class="texto-resultado"></p>
-        </div>
-        <br>
-        
-        <div class="relogio">
-            <div>
-                <span id="horas">00</span>
-                <span class="tempo">Horas</span>
-            </div>
-    
-            <div>
-                <span id="minutos">00</span>
-                <span class="tempo">Minutos</span>
-            </div>
-    
-            <div>
-                <span id="segundos">00</span>
-                <span class="tempo">Segundos</span>
-            </div>
-        </div>
-        <section>
-            <footer>
+    <div class="container">
+        <header class="header">
+            <h1>Rafa</h1>
+            <h2>Filme: Até o Último Homem</h2>
+        </header>
+
+        <main>
+            <section class="question-container">
+                <!-- Aqui você pode adicionar perguntas e respostas -->
+                <div class="caixa-perguntas"></div>
+                <div class="caixa-alternativas"></div>
+            </section>
+
+            <section class="result-container">
+                <div class="caixa-resultado">
+                    <p class="texto-resultado"></p>
+                </div>
+            </section>
+
+            <section class="relogio">
+                <div class="clock">
+                    <div>
+                        <span id="horas">00</span>
+                        <span class="tempo">Horas</span>
+                    </div>
+                    <div>
+                        <span id="minutos">00</span>
+                        <span class="tempo">Minutos</span>
+                    </div>
+                    <div>
+                        <span id="segundos">00</span>
+                        <span class="tempo">Segundos</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-links">
                 <a href="https://github.com/Rafaela-alves" target="_blank" rel="noopener noreferrer">
-                    <img src="github.png"></img>
+                    <img src="github.png" alt="Github">
                     <p>Github</p>
                 </a>
                 <a href="https://www.youtube.com/?authuser=0" target="_blank" rel="noopener noreferrer">
-                    <img src="youtube.png"></img>
-                    <p>Youtube</p>
-                    <a href="https://api.whatsapp.com/send?phone=5543996247466" target="_blank" rel="noopener noreferrer">
-                    <img src="Whatsapp.png"></img>
-                    <p>Whatsapp</p>
-                    </a>
-                    <a href="https://www.deepseek.com/">
-                        <img src="deepseek-color.png"></img>
-                        <p>Deepseek</p>
-                    </a>
+                    <img src="youtube.png" alt="YouTube">
+                    <p>YouTube</p>
                 </a>
-            </footer>
-        </section>
+                <a href="https://api.whatsapp.com/send?phone=5543996247466" target="_blank" rel="noopener noreferrer">
+                    <img src="Whatsapp.png" alt="Whatsapp">
+                    <p>Whatsapp</p>
+                </a>
+                <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="deepseek-color.png" alt="Deepseek">
+                    <p>Deepseek</p>
+                </a>
+            </div>
+        </footer>
     </div>
-    
+
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>
