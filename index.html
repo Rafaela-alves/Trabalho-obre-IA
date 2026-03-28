@@ -4,78 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.png">
+    <link rel="icon" href="medico.png">
     <title>Até o Último Homem</title>
 </head>
+
+<style>
+    body{
+        min-height:150vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #2f3e2f; /* verde militar */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #6b8e23; /* verde oliva */
+        border-radius: 14px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        opacity: .95;
+    }
+</style>
+
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>Rafa</h1>
-            <h2>Filme: Até o Último Homem</h2>
-        </header>
+    <div class="caixa-principal">
+        <br>
 
-        <main>
-            <!-- Seção para perguntas e alternativas -->
-            <section class="question-container">
-                <div class="caixa-perguntas">
-                    <!-- As perguntas vão aqui -->
-                </div>
-                <div class="caixa-alternativas">
-                    <!-- As alternativas de resposta vão aqui -->
-                </div>
-            </section>
+        <h1>Até o Último Homem</h1>
 
-            <!-- Seção para mostrar o resultado -->
-            <section class="result-container">
-                <div class="caixa-resultado">
-                    <p class="texto-resultado">
-                        <!-- Texto do resultado vai aqui -->
-                    </p>
-                </div>
-            </section>
+        <br>
 
-            <!-- Seção para o relógio -->
-            <section class="relogio">
-                <div class="clock">
-                    <div>
-                        <span id="horas">00</span>
-                        <span class="tempo">Horas</span>
-                    </div>
-                    <div>
-                        <span id="minutos">00</span>
-                        <span class="tempo">Minutos</span>
-                    </div>
-                    <div>
-                        <span id="segundos">00</span>
-                        <span class="tempo">Segundos</span>
-                    </div>
-                </div>
-            </section>
-        </main>
+        <h2>Você conhece a história de Desmond Doss?</h2>
 
-        <!-- Rodapé com links para redes sociais e outros sites -->
-        <footer>
-            <div class="footer-links">
-                <a href="https://github.com/Rafaela-alves" target="_blank" rel="noopener noreferrer">
-                    <img src="github.png" alt="Github">
+        <!-- Perguntas -->
+        <div class="caixa-perguntas"></div>
+
+        <!-- Alternativas -->
+        <div class="caixa-alternativas"></div>
+
+        <!-- Resultado -->
+        <div class="caixa-resultado">
+            <p class="texto-resultado"></p>
+        </div>
+
+        <br>
+
+        <!-- Relógio -->
+        <div class="relogio">
+            <div>
+                <span id="horas">00</span>
+                <span class="tempo">Horas</span>
+            </div>
+
+            <div>
+                <span id="minutos">00</span>
+                <span class="tempo">Minutos</span>
+            </div>
+
+            <div>
+                <span id="segundos">00</span>
+                <span class="tempo">Segundos</span>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <section>
+            <footer>
+
+                <a href="https://github.com/Rafaela-alves" target="_blank">
+                    <img src="github.png">
                     <p>Github</p>
                 </a>
-                <a href="https://www.youtube.com/?authuser=0" target="_blank" rel="noopener noreferrer">
-                    <img src="youtube.png" alt="YouTube">
+
+                <a href="https://www.youtube.com/" target="_blank">
+                    <img src="youtube.png">
                     <p>YouTube</p>
                 </a>
-                <a href="https://api.whatsapp.com/send?phone=5543996247466" target="_blank" rel="noopener noreferrer">
-                    <img src="Whatsapp.png" alt="Whatsapp">
+
+                <a href="https://api.whatsapp.com/send?phone=5543996247466" target="_blank">
+                    <img src="Whatsapp.png">
                     <p>Whatsapp</p>
                 </a>
-                <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
-                    <img src="deepseek-color.png" alt="Deepseek">
+
+                <a href="https://www.deepseek.com/">
+                    <img src="deepseek-color.png">
                     <p>Deepseek</p>
                 </a>
-            </div>
-        </footer>
+
+            </footer>
+        </section>
+
     </div>
 
-    <script src="script.js"></script>
 </body>
+
+<script src="script.js"></script>
 </html>
