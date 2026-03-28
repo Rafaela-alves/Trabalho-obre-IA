@@ -1,65 +1,80 @@
-// =========================
-// Elementos do DOM
-// =========================
+const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
+const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
 
-// =========================
-// Perguntas do quiz
-// =========================
 const perguntas = [
     {
-        enunciado: "O filme 'Até o Último Homem' conta a história de Desmond Doss. Qual era sua principal crença?",
+        enunciado: "Quem é Desmond Doss no filme 'Até o Último Homem'?",
         alternativas: [
-            { texto: "Ele acreditava em nunca matar e salvar vidas.", afirmacao: "Você valoriza a coragem e a moral acima de tudo." },
-            { texto: "Ele queria se tornar herói a qualquer custo.", afirmacao: "Você percebe que a glória não é o mais importante." }
+            {
+                texto: "Um soldado comum que luta com armas",
+                afirmacao: "Você ainda está conhecendo a história de Desmond Doss. "
+            },
+            {
+                texto: "Um médico do exército que se recusa a usar armas",
+                afirmacao: "Você entende a essência de Desmond Doss: salvar vidas sem tirar nenhuma. "
+            }
         ]
     },
     {
-        enunciado: "Desmond Doss serviu como médico no exército durante a Segunda Guerra Mundial. Como ele se destacou?",
+        enunciado: "Por que Desmond Doss se recusa a pegar em armas?",
         alternativas: [
-            { texto: "Salvando dezenas de soldados sem usar armas.", afirmacao: "Você reconhece que heroísmo pode vir de compaixão." },
-            { texto: "Liderando ataques e estratégias de combate.", afirmacao: "Você entende que liderança não é só força física." }
+            {
+                texto: "Porque tem medo da guerra",
+                afirmacao: "No começo, parece medo, mas a história mostra algo muito maior. "
+            },
+            {
+                texto: "Por causa de suas crenças religiosas e princípios",
+                afirmacao: "Você percebeu que ele segue seus valores acima de tudo. "
+            }
         ]
     },
     {
-        enunciado: "Durante o treinamento militar, muitos zombaram de Desmond. Como ele reagiu?",
+        enunciado: "Como os outros soldados tratam Desmond no início?",
         alternativas: [
-            { texto: "Manteve sua fé e princípios, sem ceder à violência.", afirmacao: "Você valoriza a perseverança diante da pressão." },
-            { texto: "Acabou participando de brigas para se encaixar.", afirmacao: "Você aprendeu que ceder aos outros pode ter consequências." }
+            {
+                texto: "Com respeito e admiração",
+                afirmacao: "Na verdade, isso só acontece depois… no começo foi difícil. "
+            },
+            {
+                texto: "Com preconceito e desconfiança",
+                afirmacao: "Exatamente, ele sofreu muito preconceito antes de ser respeitado. "
+            }
         ]
     },
     {
-        enunciado: "No campo de batalha, Desmond enfrentou situações extremas. Qual era sua prioridade?",
+        enunciado: "Durante a batalha de Okinawa, qual foi a atitude de Desmond?",
         alternativas: [
-            { texto: "Salvar vidas, mesmo arriscando a própria.", afirmacao: "Você admira a coragem altruísta de salvar os outros." },
-            { texto: "Seguir ordens rapidamente sem questionar.", afirmacao: "Você entende a importância de disciplina militar." }
+            {
+                texto: "Fugiu para se proteger",
+                afirmacao: "Isso seria comum, mas Desmond fez o oposto. "
+            },
+            {
+                texto: "Voltou sozinho para salvar soldados feridos",
+                afirmacao: "Você entendeu o momento mais marcante do filme. "
+            }
         ]
     },
     {
-        enunciado: "Ao final do filme, Desmond recebeu a Medalha de Honra. O que isso representa?",
+        enunciado: "Qual frase representa bem a missão de Desmond Doss?",
         alternativas: [
-            { texto: "Reconhecimento pelo heroísmo sem violência.", afirmacao: "Você percebe que princípios podem superar a guerra." },
-            { texto: "Um exemplo de disciplina e obediência militar.", afirmacao: "Você entende que disciplina também é valiosa, mas não é tudo." }
+            {
+                texto: "“Senhor, me ajude a salvar mais um”",
+                afirmacao: "Essa frase resume toda a coragem e fé dele. "
+            },
+            {
+                texto: "“Preciso vencer essa guerra a qualquer custo”",
+                afirmacao: "Essa não é a visão de Desmond, ele queria salvar vidas. "
+            }
         ]
-    },
+    }
 ];
 
-// =========================
-// Variáveis de controle
-// =========================
 let atual = 0;
-let historiaFinal = [];
-
-// =========================
-// Funções do Quiz
-// =========================
-function iniciaQuiz() {
-    atual = 0;
-    historiaFinal = [];
-    mostraPergunta();
-}
+let perguntaAtual;
+let historiaFinal = "";
 
 function mostraPergunta() {
     if (atual >= perguntas.length) {
@@ -67,75 +82,53 @@ function mostraPergunta() {
         return;
     }
 
-    const perguntaAtual = perguntas[atual];
+    perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.innerHTML = "";
-
-    perguntaAtual.alternativas.forEach(alternativa => {
-        const botao = document.createElement("button");
-        botao.textContent = alternativa.texto;
-        botao.classList.add("botao-alternativa");
-
-        // Adiciona o evento de clique
-        botao.addEventListener("click", () => {
-            // Chama a função para lidar com a resposta
-            respostaSelecionada(botao, alternativa);
-        });
-
-        caixaAlternativas.appendChild(botao);
-    });
+    caixaAlternativas.textContent = "";
+    mostraAlternativas();
 }
 
-// Função para lidar com a resposta selecionada
-function respostaSelecionada(botao, alternativa) {
-    botao.disabled = true; // Desativa o botão após clicar
-    botao.classList.add("clicado"); // Anima o botão clicado
-    historiaFinal.push(alternativa.afirmacao);
+function mostraAlternativas() {
+    for (const alternativa of perguntaAtual.alternativas) {
+        const botao = document.createElement("button");
+        botao.textContent = alternativa.texto;
+        botao.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botao);
+    }
+}
 
-    // Dê um tempo para o usuário ver a resposta antes de avançar
-    setTimeout(() => {
-        atual++;
-        mostraPergunta();
-    }, 1000); // Aguardar 1 segundo antes de mostrar a próxima pergunta
+function respostaSelecionada(opcaoSelecionada) {
+    historiaFinal += opcaoSelecionada.afirmacao + " ";
+    atual++;
+    mostraPergunta();
 }
 
 function mostraResultado() {
-    caixaPerguntas.textContent = "Sua Jornada no Filme 'Até o Último Homem'";
+    caixaPerguntas.textContent = "Resultado Final";
+    
+    textoResultado.textContent =
+        historiaFinal +
+        "Você acompanhou a jornada de Desmond Doss, um verdadeiro herói que mostrou que coragem não é sobre lutar, mas sobre salvar vidas.";
 
-    // Exibe uma mensagem de resultado com base nas afirmações coletadas
-    textoResultado.textContent = historiaFinal.join("\n");
-
-    caixaAlternativas.innerHTML = "";
-
-    const botaoReiniciar = document.createElement("button");
-    botaoReiniciar.textContent = "Reiniciar Quiz";
-    botaoReiniciar.classList.add("botao-reiniciar");
-    botaoReiniciar.addEventListener("click", iniciaQuiz);
-
-    caixaAlternativas.appendChild(botaoReiniciar);
+    caixaAlternativas.textContent = "";
 }
 
-// =========================
-// Relógio digital
-// =========================
-function atualizaRelogio() {
-    const horasElem = document.getElementById('horas');
-    const minutosElem = document.getElementById('minutos');
-    const segundosElem = document.getElementById('segundos');
+mostraPergunta();
 
-    const agora = new Date();
-    const hr = String(agora.getHours()).padStart(2, '0');
-    const min = String(agora.getMinutes()).padStart(2, '0');
-    const s = String(agora.getSeconds()).padStart(2, '0');
+/* RELÓGIO */
 
-    horasElem.textContent = hr;
-    minutosElem.textContent = min;
-    segundosElem.textContent = s;
-}
+const horas = document.getElementById('horas');
+const minutos = document.getElementById('minutos');
+const segundos = document.getElementById('segundos');
 
-setInterval(atualizaRelogio, 1000);
+setInterval(function () {
+    let dateToday = new Date();
 
-// =========================
-// Inicialização
-// =========================
-iniciaQuiz();
+    let hr = dateToday.getHours();
+    let min = dateToday.getMinutes();
+    let s = dateToday.getSeconds();
+
+    horas.textContent = hr.toString().padStart(2, '0');
+    minutos.textContent = min.toString().padStart(2, '0');
+    segundos.textContent = s.toString().padStart(2, '0');
+});
