@@ -1,134 +1,138 @@
+const telaInicial = document.getElementById("telaInicial");
 const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
+const progresso = document.querySelector(".progresso");
+const pontuacaoEl = document.querySelector(".pontuacao");
+const rankingLista = document.getElementById("listaRanking");
+
+const inputNome = document.getElementById("nomeJogador");
+const btnIniciar = document.getElementById("btnIniciar");
+
+let nomeJogador = "";
+let pontos = 0;
+let atual = 0;
 
 const perguntas = [
     {
-        enunciado: "Quem é Desmond Doss no filme 'Até o Último Homem'?",
-        alternativas: [
-            {
-                texto: "Um soldado comum que luta com armas",
-                afirmacao: "Você ainda está conhecendo a história de Desmond Doss. "
-            },
-            {
-                texto: "Um médico do exército que se recusa a usar armas",
-                afirmacao: "Você entende a essência de Desmond Doss: salvar vidas sem tirar nenhuma. "
-            }
-        ]
+        enunciado: "Quem é Desmond Doss?",
+        correta: 1,
+        alternativas: ["Soldado armado", "Médico sem armas"]
     },
     {
-        enunciado: "Por que Desmond Doss se recusa a pegar em armas?",
-        alternativas: [
-            {
-                texto: "Porque tem medo da guerra",
-                afirmacao: "No começo, parece medo, mas a história mostra algo muito maior. "
-            },
-            {
-                texto: "Por causa de suas crenças religiosas e princípios",
-                afirmacao: "Você percebeu que ele segue seus valores acima de tudo. "
-            }
-        ]
+        enunciado: "Por que ele não usa armas?",
+        correta: 1,
+        alternativas: ["Medo", "Religião"]
     },
     {
-        enunciado: "Como os outros soldados tratam Desmond no início?",
-        alternativas: [
-            {
-                texto: "Com respeito e admiração",
-                afirmacao: "Na verdade, isso só acontece depois… no começo foi difícil. "
-            },
-            {
-                texto: "Com preconceito e desconfiança",
-                afirmacao: "Exatamente, ele sofreu muito preconceito antes de ser respeitado. "
-            }
-        ]
+        enunciado: "Como era tratado?",
+        correta: 1,
+        alternativas: ["Respeito", "Preconceito"]
     },
     {
-        enunciado: "Durante a batalha de Okinawa, qual foi a atitude de Desmond?",
-        alternativas: [
-            {
-                texto: "Fugiu para se proteger",
-                afirmacao: "Isso seria comum, mas Desmond fez o oposto. "
-            },
-            {
-                texto: "Voltou sozinho para salvar soldados feridos",
-                afirmacao: "Você entendeu o momento mais marcante do filme. "
-            }
-        ]
-    },
-    {
-        enunciado: "Qual frase representa bem a missão de Desmond Doss?",
-        alternativas: [
-            {
-                texto: "“Senhor, me ajude a salvar mais um”",
-                afirmacao: "Essa frase resume toda a coragem e fé dele. "
-            },
-            {
-                texto: "“Preciso vencer essa guerra a qualquer custo”",
-                afirmacao: "Essa não é a visão de Desmond, ele queria salvar vidas. "
-            }
-        ]
+        enunciado: "O que fez na guerra?",
+        correta: 1,
+        alternativas: ["Fugiu", "Salvou soldados"]
     }
 ];
 
-let atual = 0;
-let perguntaAtual;
-let historiaFinal = "";
+/* INICIAR */
+btnIniciar.onclick = () => {
+    nomeJogador = inputNome.value.trim();
 
-function mostraPergunta() {
-    if (atual >= perguntas.length) {
-        mostraResultado();
+    if (nomeJogador === "") {
+        alert("Digite seu nome!");
         return;
     }
 
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = "";
-    mostraAlternativas();
-}
+    telaInicial.style.display = "none";
+    caixaPrincipal.style.display = "block";
 
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
-        const botao = document.createElement("button");
-        botao.textContent = alternativa.texto;
-        botao.addEventListener("click", () => respostaSelecionada(alternativa));
-        caixaAlternativas.appendChild(botao);
-    }
-}
-
-function respostaSelecionada(opcaoSelecionada) {
-    historiaFinal += opcaoSelecionada.afirmacao + " ";
-    atual++;
     mostraPergunta();
+};
+
+/* QUIZ */
+function mostraPergunta() {
+    if (atual >= perguntas.length) {
+        mostrarResultado();
+        return;
+    }
+
+    let p = perguntas[atual];
+
+    caixaPerguntas.textContent = p.enunciado;
+    caixaAlternativas.innerHTML = "";
+
+    progresso.style.width = (atual / perguntas.length) * 100 + "%";
+    pontuacaoEl.textContent = `Pontuação: ${pontos}/${perguntas.length}`;
+
+    p.alternativas.forEach((alt, index) => {
+        const botao = document.createElement("button");
+        botao.textContent = alt;
+
+        botao.onclick = () => {
+
+            if (index === p.correta) {
+                botao.classList.add("correta");
+                pontos++;
+            } else {
+                botao.classList.add("errada");
+
+                document.body.classList.add("shake");
+                document.body.classList.add("flash");
+
+                setTimeout(() => {
+                    document.body.classList.remove("shake");
+                    document.body.classList.remove("flash");
+                }, 300);
+            }
+
+            document.querySelectorAll("button").forEach(b => b.disabled = true);
+
+            setTimeout(() => {
+                atual++;
+                mostraPergunta();
+            }, 800);
+        };
+
+        caixaAlternativas.appendChild(botao);
+    });
 }
 
-function mostraResultado() {
-    caixaPerguntas.textContent = "Resultado Final";
-    
-    textoResultado.textContent =
-        historiaFinal +
-        "Você acompanhou a jornada de Desmond Doss, um verdadeiro herói que mostrou que coragem não é sobre lutar, mas sobre salvar vidas.";
+/* RESULTADO */
+function mostrarResultado() {
+    caixaPerguntas.innerHTML = "MISSÃO CONCLUÍDA";
+    caixaPerguntas.classList.add("missao");
 
-    caixaAlternativas.textContent = "";
+    textoResultado.textContent = `🎯 ${nomeJogador}, você fez ${pontos} pontos!`;
+
+    salvarRanking();
+    mostrarRanking();
+
+    caixaAlternativas.innerHTML = "";
+    progresso.style.width = "100%";
 }
 
-mostraPergunta();
+/* RANKING */
+function salvarRanking() {
+    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
 
-/* RELÓGIO */
+    ranking.push({ nome: nomeJogador, pontos });
 
-const horas = document.getElementById('horas');
-const minutos = document.getElementById('minutos');
-const segundos = document.getElementById('segundos');
+    ranking.sort((a, b) => b.pontos - a.pontos);
+    ranking = ranking.slice(0, 5);
 
-setInterval(function () {
-    let dateToday = new Date();
+    localStorage.setItem("ranking", JSON.stringify(ranking));
+}
 
-    let hr = dateToday.getHours();
-    let min = dateToday.getMinutes();
-    let s = dateToday.getSeconds();
+function mostrarRanking() {
+    let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+    rankingLista.innerHTML = "";
 
-    horas.textContent = hr.toString().padStart(2, '0');
-    minutos.textContent = min.toString().padStart(2, '0');
-    segundos.textContent = s.toString().padStart(2, '0');
-});
+    ranking.forEach(j => {
+        let li = document.createElement("li");
+        li.textContent = `🏅 ${j.nome} - ${j.pontos} pontos`;
+        rankingLista.appendChild(li);
+    });
+}
