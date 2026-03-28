@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Até o Último Homem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- TELA INICIAL -->
+<div class="tela-inicial" id="telaInicial">
+    <h1>ATÉ O ÚLTIMO HOMEM</h1>
+    <p>Digite seu nome e inicie a missão</p>
+
+    <input type="text" id="nomeJogador" placeholder="Seu nome">
+    <button id="btnIniciar">Iniciar Missão</button>
+</div>
+
+<!-- QUIZ -->
+<div class="caixa-principal" style="display:none;">
+
+    <h2>Quiz - Desmond Doss</h2>
+
+    <div class="barra-progresso">
+        <div class="progresso"></div>
+    </div>
+
+    <p class="pontuacao"></p>
+
+    <div class="caixa-perguntas"></div>
+    <div class="caixa-alternativas"></div>
+
+    <div class="caixa-resultado">
+        <p class="texto-resultado"></p>
+    </div>
+
+</div>
+
+<!-- RANKING -->
+<div class="ranking">
+    <h3>🏆 Ranking</h3>
+    <ul id="listaRanking"></ul>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
