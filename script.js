@@ -46,6 +46,9 @@ btnIniciar.onclick = () => {
         return;
     }
 
+    pontos = 0;
+    atual = 0;
+
     telaInicial.style.display = "none";
     caixaPrincipal.style.display = "block";
 
@@ -88,7 +91,7 @@ function mostraPergunta() {
                 }, 300);
             }
 
-            document.querySelectorAll("button").forEach(b => b.disabled = true);
+            document.querySelectorAll(".caixa-alternativas button").forEach(b => b.disabled = true);
 
             setTimeout(() => {
                 atual++;
@@ -114,7 +117,7 @@ function mostrarResultado() {
     progresso.style.width = "100%";
 }
 
-/* RANKING */
+/* SALVAR RANKING */
 function salvarRanking() {
     let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
 
@@ -126,13 +129,23 @@ function salvarRanking() {
     localStorage.setItem("ranking", JSON.stringify(ranking));
 }
 
+/* MOSTRAR RANKING COM MEDALHAS */
 function mostrarRanking() {
     let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
     rankingLista.innerHTML = "";
 
-    ranking.forEach(j => {
+    ranking.forEach((j, index) => {
         let li = document.createElement("li");
-        li.textContent = `🏅 ${j.nome} - ${j.pontos} pontos`;
+
+        let medalha = "";
+
+        if (index === 0) medalha = "🥇";
+        else if (index === 1) medalha = "🥈";
+        else if (index === 2) medalha = "🥉";
+        else medalha = "🏅";
+
+        li.textContent = `${medalha} ${j.nome} - ${j.pontos} pontos`;
+
         rankingLista.appendChild(li);
     });
 }
