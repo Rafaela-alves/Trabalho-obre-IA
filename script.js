@@ -77,8 +77,9 @@ function mostraPergunta() {
         botao.classList.add("botao-alternativa");
 
         botao.addEventListener("click", () => {
-            botao.disabled = true; // desativa botão após clicar
+            botao.disabled = true; // Desativa o botão após clicar
             respostaSelecionada(alternativa.afirmacao);
+            botao.classList.add("clicado"); // Adiciona a animação de clique
         });
 
         caixaAlternativas.appendChild(botao);
