@@ -10,30 +10,48 @@ const rankingLista = document.getElementById("listaRanking");
 const inputNome = document.getElementById("nomeJogador");
 const btnIniciar = document.getElementById("btnIniciar");
 
+const cronometroEl = document.getElementById("cronometro");
+const barraTempo = document.getElementById("barraTempo");
+
 let nomeJogador = "";
 let pontos = 0;
 let atual = 0;
+let tempo = 10;
+let intervalo;
 
+/* PERGUNTAS */
 const perguntas = [
     {
-        enunciado: "Quem é Desmond Doss?",
+        enunciado: "Durante a Segunda Guerra Mundial, Desmond Doss ficou conhecido por sua coragem. Qual era sua função no exército?",
         correta: 1,
-        alternativas: ["Soldado armado", "Médico sem armas"]
+        alternativas: [
+            "Atuava como soldado armado",
+            "Médico de combate sem portar armas"
+        ]
     },
     {
-        enunciado: "Por que ele não usa armas?",
+        enunciado: "Por qual motivo Desmond Doss se recusava a usar armas durante a guerra?",
         correta: 1,
-        alternativas: ["Medo", "Religião"]
+        alternativas: [
+            "Medo do combate",
+            "Convicções religiosas"
+        ]
     },
     {
-        enunciado: "Como era tratado?",
+        enunciado: "Como Desmond Doss era tratado no início por seus companheiros de exército?",
         correta: 1,
-        alternativas: ["Respeito", "Preconceito"]
+        alternativas: [
+            "Com respeito imediato",
+            "Com preconceito e zombaria"
+        ]
     },
     {
-        enunciado: "O que fez na guerra?",
+        enunciado: "Qual foi o principal ato heroico de Desmond Doss na Batalha de Okinawa?",
         correta: 1,
-        alternativas: ["Fugiu", "Salvou soldados"]
+        alternativas: [
+            "Abandonou o campo de batalha",
+            "Salvou dezenas de soldados feridos"
+        ]
     }
 ];
 
@@ -55,8 +73,55 @@ btnIniciar.onclick = () => {
     mostraPergunta();
 };
 
+/* CRONÔMETRO + BARRA */
+function iniciarCronometro() {
+    tempo = 10;
+
+    barraTempo.style.width = "100%";
+    barraTempo.classList.remove("perigo");
+
+    cronometroEl.textContent = `⏱️ ${tempo}s`;
+
+    intervalo = setInterval(() => {
+        tempo--;
+
+        cronometroEl.textContent = `⏱️ ${tempo}s`;
+
+        let porcentagem = (tempo / 10) * 100;
+        barraTempo.style.width = porcentagem + "%";
+
+        if (tempo <= 3) {
+            barraTempo.classList.add("perigo");
+        }
+
+        if (tempo <= 0) {
+            clearInterval(intervalo);
+            barraTempo.style.width = "0%";
+            tempoEsgotado();
+        }
+
+    }, 1000);
+}
+
+function tempoEsgotado() {
+    document.body.classList.add("shake");
+
+    setTimeout(() => {
+        document.body.classList.remove("shake");
+    }, 300);
+
+    document.querySelectorAll(".caixa-alternativas button").forEach(b => b.disabled = true);
+
+    setTimeout(() => {
+        atual++;
+        mostraPergunta();
+    }, 800);
+}
+
 /* QUIZ */
 function mostraPergunta() {
+    clearInterval(intervalo);
+
     if (atual >= perguntas.length) {
         mostrarResultado();
         return;
@@ -75,6 +140,7 @@ function mostraPergunta() {
         botao.textContent = alt;
 
         botao.onclick = () => {
+            clearInterval(intervalo);
 
             if (index === p.correta) {
                 botao.classList.add("correta");
@@ -101,10 +167,14 @@ function mostraPergunta() {
 
         caixaAlternativas.appendChild(botao);
     });
+
+    iniciarCronometro();
 }
 
 /* RESULTADO */
 function mostrarResultado() {
+    clearInterval(intervalo);
+
     caixaPerguntas.innerHTML = "MISSÃO CONCLUÍDA";
     caixaPerguntas.classList.add("missao");
 
@@ -115,23 +185,26 @@ function mostrarResultado() {
 
     caixaAlternativas.innerHTML = "";
     progresso.style.width = "100%";
+    cronometroEl.textContent = "";
+    barraTempo.style.width = "0%";
 }
 
-/* SALVAR RANKING */
+/* RANKING (4 jogadores) */
 function salvarRanking() {
     let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
 
     ranking.push({ nome: nomeJogador, pontos });
 
-    ranking.sort((a, b) => b.pontos - a.pontos);
-    ranking = ranking.slice(0, 5);
+    if (ranking.length > 4) {
+        ranking = ranking.slice(-4);
+    }
 
     localStorage.setItem("ranking", JSON.stringify(ranking));
 }
 
-/* MOSTRAR RANKING COM MEDALHAS */
 function mostrarRanking() {
     let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+
     rankingLista.innerHTML = "";
 
     ranking.forEach((j, index) => {
@@ -139,9 +212,9 @@ function mostrarRanking() {
 
         let medalha = "";
 
-        if (index === 0) medalha = "🥇";
-        else if (index === 1) medalha = "🥈";
-        else if (index === 2) medalha = "🥉";
+        if (index === ranking.length - 1) medalha = "🥇";
+        else if (index === ranking.length - 2) medalha = "🥈";
+        else if (index === ranking.length - 3) medalha = "🥉";
         else medalha = "🏅";
 
         li.textContent = `${medalha} ${j.nome} - ${j.pontos} pontos`;
