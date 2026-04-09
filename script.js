@@ -87,7 +87,7 @@ function iniciarCronometro() {
 
         cronometroEl.textContent = `⏱️ ${tempo}s`;
 
-        let porcentagem = (tempo / 10) * 100;
+        let porcentagem = (tempo / 20) * 100;
         barraTempo.style.width = porcentagem + "%";
 
         if (tempo <= 3) {
